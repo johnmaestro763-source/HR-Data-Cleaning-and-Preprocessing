@@ -1,0 +1,70 @@
+1	Identify and remove duplicate rows	df = df.drop_duplicates()
+2	Remove duplicate Customer_IDs	df = df.drop_duplicates(subset='Customer_ID', keep='first')
+3	Remove duplicate Emails	df = df.drop_duplicates(subset='Email', keep='first')
+4	Remove duplicate Product_IDs	df = df.drop_duplicates(subset='Product_ID', keep='first')
+5	Fill missing Name values with “Unknown”	df['Name'] = df['Name'].fillna('Unknown')
+6	Fill missing Email values with default	df['Email'] = df['Email'].fillna('noemail@example.com')
+7	Fill missing Product_Name values	df['Product_Name'] = df['Product_Name'].fillna('Misc')
+8	Fill missing Category values	df['Category'] = df['Category'].fillna('Misc')
+9	Fill missing Feedback_Score with median per product	df['Feedback_Score'] = df.groupby('Product_ID')['Feedback_Score'].transform(lambda x: x.fillna(x.median()))
+10	Fill missing Quantity with 1	df['Quantity'] = df['Quantity'].fillna(1)
+🅑 Invalid / Outlier Values
+Q	Task	Example Pandas Code
+11	Remove rows where Price is negative	df = df[df['Price'] >= 0]
+12	Remove rows where Price = 0	df = df[df['Price'] > 0]
+13	Remove rows where Quantity is negative	df = df[df['Quantity'] >= 0]
+14	Remove rows where Age < 0 or > 120	df = df[(df['Age'] >= 0) & (df['Age'] <= 120)]
+15	Remove rows where Feedback_Score < 1 or > 5	df = df[(df['Feedback_Score'] >= 1) & (df['Feedback_Score'] <= 5)]
+16	Remove rows where Delivery_Date < Purchase_Date	df = df[df['Delivery_Date'] >= df['Purchase_Date']]
+17	Fix typos in Gender (Mle → Male, f → Female)	df['Gender'] = df['Gender'].replace({'Mle':'Male','m':'Male','f':'Female','Fmale':'Female'})
+18	Fix typos in Payment_Type	df['Payment_Type'] = df['Payment_Type'].str.strip().str.title()
+19	Standardize Account_Status	df['Account_Status'] = df['Account_Status'].str.capitalize().replace({'Actve':'Active','Inactiv':'Inactive','Baned':'Banned'})
+20	Remove invalid emails	df = df[df['Email'].str.contains(r'^[\w\.-]+@[\w\.-]+\.\w+$', na=False)]
+🅒 Conditional Fetch / Filtering
+Q	Task	Example Pandas Code
+21	Orders where Price > 500	df[df['Price'] > 500]
+22	Orders where Feedback_Score < 3	df[df['Feedback_Score'] < 3]
+23	VIP customers with Total_Purchase > 1000	df[(df['Customer_Loyalty']=='VIP') & (df['Total_Purchase']>1000)]
+24	Orders where Account_Status = "Banned"	df[df['Account_Status']=='Banned']
+25	Late deliveries (>7 days)	df[(df['Delivery_Date'] - df['Purchase_Date']).dt.days > 7]
+26	Products in "Electronics"	df[df['Category']=='Electronics']
+27	Customers from India	df[df['Country']=='India']
+28	Orders where Quantity > 10	df[df['Quantity'] > 10]
+29	Orders where Discount > 50	df[df['Discount'] > 50]
+30	Orders where Price * Quantity > 1000	df[df['Price']*df['Quantity'] > 1000]
+🅓 Join-Like / Merge Operations
+Q	Task	Example Pandas Code
+31	Join orders with customer details	orders.merge(customers, on='Customer_ID', how='left')
+32	Join orders with product details	orders.merge(products, on='Product_ID', how='left')
+33	Combine customer & product info	orders.merge(customers, on='Customer_ID').merge(products, on='Product_ID')
+34	Total purchase per customer	df.groupby('Customer_ID').apply(lambda x:(x['Price']*x['Quantity']).sum())
+35	Average feedback per product	df.groupby('Product_ID')['Feedback_Score'].mean()
+36	Customers who only ordered Electronics	df.groupby('Customer_ID')['Category'].apply(lambda x:set(x)=={'Electronics'})
+37	Top 10 VIP customers by total purchase	df[df['Customer_Loyalty']=='VIP'].groupby('Customer_ID').agg({'Total_Purchase':'sum'}).nlargest(10,'Total_Purchase')
+38	Products never ordered	products[~products['Product_ID'].isin(df['Product_ID'])]
+39	Orders missing customer info	df[df['Customer_ID'].isna()]
+40	Orders missing product info	df[df['Product_ID'].isna()]
+🅔 Calculated Columns / Transformations
+Q	Task	Example Pandas Code
+41	Add Total_Purchase = Price × Quantity	df['Total_Purchase'] = df['Price'] * df['Quantity']
+42	Add Discounted_Price = Price - Discount	df['Discounted_Price'] = df['Price'] - df['Discount']
+43	Add Delivery_Duration = Delivery - Purchase	df['Delivery_Duration'] = (df['Delivery_Date'] - df['Purchase_Date']).dt.days
+44	Create Age_Group (Child/Teen/Adult/Senior)	df['Age_Group'] = pd.cut(df['Age'], [0,12,19,59,120], labels=['Child','Teen','Adult','Senior'])
+45	Create Loyalty_Level	df['Loyalty_Level'] = pd.cut(df['Total_Purchase'], [0,500,1000,5000,np.inf], labels=['Bronze','Silver','Gold','Platinum'])
+46	Encode Gender numerically	df['Gender_Code'] = df['Gender'].map({'Male':1,'Female':2,'Other':3})
+47	Encode Account_Status numerically	df['Status_Code'] = df['Account_Status'].map({'Active':1,'Inactive':2,'Banned':3})
+48	Standardize Country names	df['Country'] = df['Country'].str.title().str.strip()
+49	Standardize Payment_Type	df['Payment_Type'] = df['Payment_Type'].str.title().str.strip()
+50	Trim & lowercase all strings	df = df.applymap(lambda x: x.strip().lower() if isinstance(x,str) else x)
+🅕 Sorting / Ranking / Aggregation
+Q	Task	Example Pandas Code
+51	Top 5 products by total revenue	df.groupby('Product_ID').apply(lambda x:(x['Price']*x['Quantity']).sum()).nlargest(5)
+52	Top 5 customers by total purchase	df.groupby('Customer_ID')['Total_Purchase'].sum().nlargest(5)
+53	Average discount per category	df.groupby('Category')['Discount'].mean()
+54	Average feedback per category	df.groupby('Category')['Feedback_Score'].mean()
+55	Most popular payment type	df['Payment_Type'].value_counts().idxmax()
+56	Customer with highest single order value	df.loc[(df['Price']*df['Quantity']).idxmax()]
+57	Customers with more than 5 orders	df['Customer_ID'].value_counts()[lambda x:x>5]
+58	Sort by Delivery_Duration descending	df.sort_values(by='Delivery_Duration', ascending=False)
+59	Products with max/min feedback	df.groupby('Product_ID')['Feedback_Score'].agg(['max','min'])
+60	Group by Country & Category – total purchase	df.groupby(['Country','Category'])['Total_Purchase'].sum()
