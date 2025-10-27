@@ -1,47 +1,41 @@
-# 🎬 Movie Booking SQL Project
+# HR Data Cleaning and Preprocessing using Python (Pandas & NumPy)
 
-## 📘 Project Overview  
-This SQL project is designed to analyze a **Movie Booking System** dataset using core and intermediate SQL concepts. It demonstrates how SQL can be used for **data extraction, transformation, and analysis** to generate insights about movies, bookings, customers, and payments.  
-
-The project focuses on **real-world use cases** such as tracking customer activity, identifying revenue trends, and managing show details using SQL queries.
-
----
-
-## 🧾 Dataset Information  
-The dataset contains multiple tables related to a movie booking system:  
-- **Movies** – Movie details like title, genre, and release date  
-- **Customers** – Customer profiles and locations  
-- **Shows** – Show timings, ticket prices, and theatres  
-- **Bookings** – Records of customer bookings and seats booked  
-- **Payments** – Payment information with amount and status  
-- **Theatres** – Theatre names and IDs  
-
-File: `movie_booking_basic_sql.xlsx`
+## 📋 Project Overview
+This project focuses on cleaning and preprocessing HR data using Python libraries **Pandas** and **NumPy**.  
+It demonstrates key data cleaning steps — handling missing values, removing duplicates, fixing data types, and preparing data for visualization in Tableau or Power BI.
 
 ---
 
-## 🧠 Concepts Covered  
-This project includes queries demonstrating:  
-- **SELECT & DISTINCT** – Fetch and filter movie and customer data  
-- **WHERE & Operators** – Apply conditional filters  
-- **ORDER BY** – Sort data by specific columns  
-- **GROUP BY & Aggregations** – Summarize seats booked and payments  
-- **HAVING** – Filter grouped data  
-- **LIMIT & OFFSET** – Retrieve specific record ranges  
-- **Subqueries** – Extract dependent query results  
-- **JOINS** – Combine data from multiple tables  
-- **DELETE** – Manage and clean data  
+## 🧹 Steps Performed
+1. **Data Loading** – Imported dataset and inspected structure with `.info()` and `.describe()`
+2. **Missing Value Handling** – Filled missing values or removed incomplete records
+3. **Duplicate Removal** – Identified and removed duplicate entries
+4. **Data Type Conversion** – Converted columns like dates and numerics
+5. **Text Standardization** – Cleaned categorical fields (e.g., Department, Gender)
+6. **Outlier Detection** – Used IQR method for salary range cleaning
+7. **Export** – Saved clean data as `cleaned_hr_dataset.csv`
 
 ---
 
-## 🧩 Example Queries  
-```sql
--- Find total seats booked per customer
-SELECT CustomerID, SUM(SeatsBooked) 
-FROM movie_slot.movie_booking_booking 
-GROUP BY CustomerID;
+## 🧰 Tools & Libraries Used
+- **Python**
+- **Pandas**
+- **NumPy**
+- **Jupyter Notebook**
+- **Excel**
 
--- List movies released in 2024
-SELECT * 
-FROM movie_slot.movie_booking 
-WHERE ReleaseDate BETWEEN '2024-01-01' AND '2024-12-31';
+---
+
+## 📊 Outcome
+A clean, analysis-ready HR dataset that can be directly used for visualization in **Tableau or Power BI**, enabling insights into:
+- Employee attrition trends  
+- Workforce satisfaction  
+- Department-wise distribution  
+- Salary structure analysis  
+
+---
+
+## 👨‍💻 Author
+**John Robin A**  
+📍 Chennai, Tamil Nadu, India  
+📧 [johnmaestro763@gmail.com](mailto:johnmaestro763@gmail.com)
