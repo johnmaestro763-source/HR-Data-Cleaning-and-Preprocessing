@@ -1,67 +1,47 @@
-[README.md](https://github.com/user-attachments/files/23012984/README.md)
-# HR Data Cleaning and Preprocessing using Python (Pandas & NumPy)
+# 🎬 Movie Booking SQL Project
 
-## 📋 Project Overview
-This project focuses on cleaning and preprocessing HR data using Python libraries **Pandas** and **NumPy**.  
-It demonstrates key data cleaning steps — handling missing values, removing duplicates, fixing data types, and preparing data for visualization in Tableau or Power BI.
+## 📘 Project Overview  
+This SQL project is designed to analyze a **Movie Booking System** dataset using core and intermediate SQL concepts. It demonstrates how SQL can be used for **data extraction, transformation, and analysis** to generate insights about movies, bookings, customers, and payments.  
 
----
-
-## 🧹 Steps Performed
-1. **Data Loading** – Imported dataset and inspected structure with `.info()` and `.describe()`  
-2. **Missing Value Handling** – Filled missing values or removed incomplete records  
-3. **Duplicate Removal** – Identified and removed duplicate entries (e.g., duplicate emails)  
-4. **Data Type Conversion** – Converted columns like dates and numerics to appropriate formats  
-5. **Text Standardization** – Cleaned categorical fields (e.g., Department, Gender)  
-6. **Outlier Detection** – Used IQR method for salary range cleaning  
-7. **Export** – Saved clean data as `cleaned_hr_dataset.csv`
+The project focuses on **real-world use cases** such as tracking customer activity, identifying revenue trends, and managing show details using SQL queries.
 
 ---
 
-## 🧰 Tools & Libraries Used
-- **Python**
-- **Pandas**
-- **NumPy**
-- **Jupyter Notebook**
-- **Excel**
+## 🧾 Dataset Information  
+The dataset contains multiple tables related to a movie booking system:  
+- **Movies** – Movie details like title, genre, and release date  
+- **Customers** – Customer profiles and locations  
+- **Shows** – Show timings, ticket prices, and theatres  
+- **Bookings** – Records of customer bookings and seats booked  
+- **Payments** – Payment information with amount and status  
+- **Theatres** – Theatre names and IDs  
+
+File: `movie_booking_basic_sql.xlsx`
 
 ---
 
-## 📊 Outcome
-A clean, analysis-ready HR dataset that can be directly used for visualization in **Tableau or Power BI**, enabling insights into:  
-- Employee attrition trends  
-- Workforce satisfaction  
-- Department-wise distribution  
-- Salary structure analysis  
+## 🧠 Concepts Covered  
+This project includes queries demonstrating:  
+- **SELECT & DISTINCT** – Fetch and filter movie and customer data  
+- **WHERE & Operators** – Apply conditional filters  
+- **ORDER BY** – Sort data by specific columns  
+- **GROUP BY & Aggregations** – Summarize seats booked and payments  
+- **HAVING** – Filter grouped data  
+- **LIMIT & OFFSET** – Retrieve specific record ranges  
+- **Subqueries** – Extract dependent query results  
+- **JOINS** – Combine data from multiple tables  
+- **DELETE** – Manage and clean data  
 
 ---
 
-## 📈 Example Visualizations (in Tableau/Power BI)
-- **Attrition Dashboard**: Track attrition by department and gender  
-- **Salary Insights**: Analyze average salary vs. experience  
-- **Demographics**: Visualize employee distribution by age and education  
-- **Satisfaction Index**: Correlate job satisfaction with performance ratings  
+## 🧩 Example Queries  
+```sql
+-- Find total seats booked per customer
+SELECT CustomerID, SUM(SeatsBooked) 
+FROM movie_slot.movie_booking_booking 
+GROUP BY CustomerID;
 
----
-
-## 🧾 File Structure
-```
-HR-Data-Cleaning-and-Preprocessing/
-│
-├── 📘 Data-Cleaning-and-Preprocessing-using-Python-Pandas-and-NumPy.pptx
-├── 📗 mega_data_cleaning_dataset.xlsx
-├── 📙 cleaned_hr_dataset.csv
-├── 📒 data_cleaning_script.ipynb
-└── README.md
-```
-
----
-
-## 👨‍💻 Author
-**John Robin A**  
-📍 Chennai, Tamil Nadu, India  
-📧 [johnmaestro763@gmail.com](mailto:johnmaestro763@gmail.com)
-
----
-
-⭐ *If you found this project helpful, please star the repository!* ⭐
+-- List movies released in 2024
+SELECT * 
+FROM movie_slot.movie_booking 
+WHERE ReleaseDate BETWEEN '2024-01-01' AND '2024-12-31';
